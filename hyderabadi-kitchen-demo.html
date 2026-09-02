@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hyderabadi Kitchen | Muscat, Oman</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --maroon-deep:#5c0f14;
+    --maroon:#7a1420;
+    --maroon-bright:#9c1c26;
+    --cream:#f7f0e3;
+    --cream-soft:#fbf6ec;
+    --gold:#c9962c;
+    --gold-bright:#e0ac3d;
+    --ember:#e8732c;
+    --ink:#2a1b14;
+    --white:#fffaf0;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Karla', sans-serif;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,h4{
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    line-height:1.05;
+  }
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+  .wrap{max-width:1100px; margin:0 auto; padding:0 24px;}
+
+  /* ---------- steam/dome motif svg helpers ---------- */
+  .motif{opacity:.9;}
+
+  /* ================= NAV ================= */
+  nav{
+    position:sticky; top:0; z-index:50;
+    background:var(--maroon-deep);
+    border-bottom:3px solid var(--gold);
+  }
+  nav .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:12px 24px;
+  }
+  .nav-brand{display:flex; align-items:center; gap:10px;}
+  .nav-brand svg{width:34px; height:34px;}
+  .nav-brand span{
+    font-family:'Fraunces', serif; color:var(--cream); font-weight:700; font-size:1.05rem;
+    letter-spacing:.02em;
+  }
+  .nav-links{display:flex; gap:22px; font-size:.92rem; font-weight:600;}
+  .nav-links a{color:var(--cream); opacity:.85; transition:opacity .2s, color .2s;}
+  .nav-links a:hover{opacity:1; color:var(--gold-bright);}
+  @media(max-width:640px){ .nav-links{display:none;} }
+
+  .lang-toggle{
+    display:flex; background:rgba(247,240,227,.12); border-radius:999px; padding:3px; gap:2px;
+  }
+  .lang-btn{
+    border:none; background:transparent; color:var(--cream); font-family:'Karla',sans-serif;
+    font-weight:700; font-size:.82rem; padding:7px 14px; border-radius:999px; cursor:pointer;
+    transition:background .2s ease, color .2s ease;
+  }
+  .lang-btn.active{ background:var(--gold); color:var(--maroon-deep); }
+  .lang-btn:not(.active):hover{ background:rgba(247,240,227,.15); }
+
+  html[dir="rtl"] body{ font-family:'Karla', 'Tahoma', sans-serif; }
+  html[dir="rtl"] .menu-item{ direction:rtl; }
+  html[dir="rtl"] .call-row{ direction:rtl; }
+  html[dir="rtl"] .loc-card h3{ flex-direction:row-reverse; justify-content:flex-end; }
+  html[dir="rtl"] .hours{ flex-direction:row-reverse; justify-content:flex-end; }
+  html[dir="rtl"] .directions-link{ flex-direction:row-reverse; }
+  html[dir="rtl"] .directions-link:hover svg{ transform:translateX(-2px); }
+  html[dir="rtl"] .social-card{ flex-direction:row-reverse; text-align:right; }
+  html[dir="rtl"] .section-head .kicker{ flex-direction:row-reverse; }
+  html[dir="rtl"] .nav-brand{ flex-direction:row-reverse; }
+  html[dir="rtl"] .call-row a.callbtn{ flex-direction:row-reverse; }
+
+  /* ================= LOGO INTRO / HERO ================= */
+  .hero{
+    position:relative;
+    background:radial-gradient(ellipse at 50% -10%, var(--maroon-bright) 0%, var(--maroon) 45%, var(--maroon-deep) 100%);
+    padding:76px 24px 90px;
+    text-align:center;
+    overflow:hidden;
+  }
+  .hero-arch-row{
+    position:absolute; bottom:0; left:0; width:100%; line-height:0;
+  }
+  .medallion{
+    width:172px; height:172px; margin:0 auto 28px;
+    border-radius:50%;
+    background:var(--maroon-deep);
+    border:3px solid var(--gold);
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+    animation: settle .9s cubic-bezier(.2,.8,.2,1) both;
+    box-shadow:0 0 0 8px rgba(201,150,44,.12);
+  }
+  @keyframes settle{
+    0%{ transform:scale(.4) rotate(-8deg); opacity:0; }
+    60%{ transform:scale(1.06) rotate(2deg); opacity:1; }
+    100%{ transform:scale(1) rotate(0deg); opacity:1; }
+  }
+  .medallion svg{width:118px; height:118px;}
+  .steam path{
+    animation: rise 2.6s ease-in-out infinite;
+    transform-origin:bottom center;
+  }
+  .steam path:nth-child(2){ animation-delay:.4s; }
+  @keyframes rise{
+    0%{ transform:translateY(2px); opacity:.5; }
+    50%{ transform:translateY(-4px); opacity:1; }
+    100%{ transform:translateY(2px); opacity:.5; }
+  }
+  .hero-eyebrow{
+    color:var(--gold-bright); font-family:'Fraunces', serif; font-style:italic;
+    font-size:1.05rem; margin-bottom:10px; opacity:0; animation:fadeUp .8s .3s ease forwards;
+  }
+  .hero h1{
+    color:var(--white); font-size:clamp(2.4rem, 6vw, 4.2rem);
+    letter-spacing:-.01em;
+    opacity:0; animation:fadeUp .8s .45s ease forwards;
+  }
+  .hero-arabic{
+    color:var(--gold); font-size:1.4rem; margin-top:8px;
+    opacity:0; animation:fadeUp .8s .55s ease forwards;
+  }
+  .hero-tag{
+    max-width:480px; margin:22px auto 0; color:var(--cream); font-size:1.08rem;
+    font-style:italic; font-family:'Fraunces',serif; opacity:.92;
+    opacity:0; animation:fadeUp .8s .7s ease forwards;
+  }
+  @keyframes fadeUp{
+    from{ opacity:0; transform:translateY(14px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+  .hero-ctas{
+    margin-top:34px; display:flex; gap:14px; justify-content:center; flex-wrap:wrap;
+    opacity:0; animation:fadeUp .8s .85s ease forwards;
+  }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:13px 26px; border-radius:999px; font-weight:700; font-size:.95rem;
+    border:2px solid transparent; cursor:pointer; transition:transform .18s ease, background .2s ease;
+  }
+  .btn:hover{ transform:translateY(-2px); }
+  .btn-gold{ background:var(--gold); color:var(--maroon-deep); }
+  .btn-gold:hover{ background:var(--gold-bright); }
+  .btn-outline{ border-color:var(--cream); color:var(--cream); }
+  .btn-outline:hover{ background:rgba(255,255,255,.08); }
+
+  /* wave/arch bottom of hero */
+  .hero-scallop{
+    position:relative; height:46px; margin-top:-2px;
+  }
+  .hero-scallop svg{ width:100%; height:100%; display:block; }
+
+  /* ================= SECTION HEADERS ================= */
+  .section{ padding:78px 24px; }
+  .section-head{ text-align:center; margin-bottom:48px; }
+  .section-head .kicker{
+    display:inline-flex; align-items:center; gap:10px;
+    color:var(--maroon); font-weight:700; font-size:.85rem;
+    margin-bottom:10px;
+  }
+  .section-head .kicker svg{ width:16px; height:16px; }
+  .section-head h2{
+    font-size:clamp(1.9rem, 4vw, 2.7rem); color:var(--maroon-deep);
+  }
+  .section-head p{ max-width:520px; margin:12px auto 0; color:#5a4a3f; font-size:1.02rem; }
+
+  .divider-motif{ display:flex; justify-content:center; margin:20px 0 0; }
+  .divider-motif svg{ width:90px; height:16px; opacity:.55; }
+
+  /* ================= MENU ================= */
+  .menu-section{ background:var(--maroon-deep); color:var(--cream); }
+  .menu-section .section-head h2{ color:var(--white); }
+  .menu-section .section-head p{ color:#e6d6c2; }
+  .menu-section .kicker{ color:var(--gold-bright); }
+
+  .tabs{
+    display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-bottom:38px;
+  }
+  .tab-btn{
+    padding:9px 18px; border-radius:999px; border:1.5px solid rgba(247,240,227,.3);
+    background:transparent; color:var(--cream); font-family:'Karla',sans-serif;
+    font-weight:600; font-size:.88rem; cursor:pointer; transition:all .2s ease;
+  }
+  .tab-btn:hover{ border-color:var(--gold); }
+  .tab-btn.active{ background:var(--gold); color:var(--maroon-deep); border-color:var(--gold); }
+
+  .menu-panel{ display:none; }
+  .menu-panel.active{ display:block; animation:fadeUp .4s ease; }
+
+  .menu-group{ margin-bottom:34px; }
+  .menu-group h3{
+    color:var(--gold-bright); font-size:1.15rem; margin-bottom:14px;
+    padding-bottom:8px; border-bottom:1px solid rgba(247,240,227,.18);
+    display:flex; align-items:center; gap:8px;
+  }
+  .menu-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:10px 40px;
+  }
+  @media(max-width:700px){ .menu-grid{ grid-template-columns:1fr; } }
+  .menu-item{
+    display:flex; justify-content:space-between; align-items:baseline; gap:14px;
+    padding:9px 0; border-bottom:1px dashed rgba(247,240,227,.14);
+  }
+  .menu-item .name{ font-size:.98rem; }
+  .menu-item .name .spice{ color:var(--ember); font-size:.85em; margin-left:4px; }
+  .menu-item .price{
+    font-family:'Fraunces', serif; font-weight:600; color:var(--gold-bright);
+    white-space:nowrap; font-size:.98rem;
+  }
+
+  /* ================= LOCATIONS ================= */
+  .loc-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:26px;
+  }
+  @media(max-width:760px){ .loc-grid{ grid-template-columns:1fr; } }
+  .loc-card{
+    background:var(--cream-soft); border:1.5px solid rgba(122,20,32,.14);
+    border-radius:18px; padding:30px; position:relative; overflow:hidden;
+  }
+  .loc-card::before{
+    content:''; position:absolute; top:-30px; right:-30px; width:110px; height:110px;
+    background:var(--gold); opacity:.08; border-radius:50%;
+  }
+  .loc-card h3{ color:var(--maroon-deep); font-size:1.3rem; margin-bottom:6px; display:flex; align-items:center; gap:10px;}
+  .loc-card h3 svg{ width:20px; height:20px; flex-shrink:0; }
+  .loc-card .addr{ color:#5a4a3f; font-size:.95rem; margin-bottom:18px; line-height:1.5; }
+  .loc-card .hours{
+    display:flex; align-items:center; gap:8px; font-size:.9rem; color:var(--maroon);
+    font-weight:600; margin-bottom:22px;
+  }
+  .loc-card .hours svg{ width:16px; height:16px; }
+  .call-row{
+    display:flex; align-items:center; justify-content:space-between;
+    background:var(--white); border:1.5px solid rgba(122,20,32,.16);
+    border-radius:12px; padding:13px 16px;
+  }
+  .call-row .label{ font-size:.82rem; color:#8a7365; font-weight:600; }
+  .call-row .num{ font-family:'Fraunces',serif; font-weight:700; color:var(--maroon-deep); font-size:1.05rem; }
+  .call-row a.callbtn{
+    background:var(--maroon); color:var(--cream); padding:8px 16px; border-radius:999px;
+    font-size:.85rem; font-weight:700; display:inline-flex; align-items:center; gap:6px;
+    transition:background .2s ease;
+  }
+  .call-row a.callbtn:hover{ background:var(--maroon-bright); }
+
+  /* ================= SOCIAL / REVIEW STRIP ================= */
+  .social-strip{
+    background:var(--gold); padding:56px 24px;
+  }
+  .social-inner{
+    max-width:1100px; margin:0 auto;
+    display:flex; justify-content:center; gap:22px; flex-wrap:wrap;
+  }
+  .social-card{
+    background:var(--cream-soft); border-radius:16px; padding:26px 30px;
+    display:flex; align-items:center; gap:16px; flex:1 1 300px; max-width:400px;
+    transition:transform .2s ease, box-shadow .2s ease;
+    border:1.5px solid rgba(122,20,32,.12);
+  }
+  .social-card:hover{ transform:translateY(-4px); box-shadow:0 10px 28px rgba(92,15,20,.16); }
+  .social-icon{
+    width:52px; height:52px; border-radius:50%; background:var(--maroon-deep);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .social-icon svg{ width:26px; height:26px; color:var(--gold-bright); }
+  .social-card h4{ color:var(--maroon-deep); font-size:1.08rem; margin-bottom:3px; }
+  .social-card p{ font-size:.86rem; color:#6b5847; }
+
+  /* ================= FOOTER ================= */
+  footer{
+    background:var(--maroon-deep); color:var(--cream); text-align:center;
+    padding:38px 24px 30px; font-size:.85rem;
+  }
+  footer .fmedallion{ width:44px; height:44px; margin:0 auto 12px; opacity:.85; }
+  footer .fmedallion svg{ width:100%; height:100%; }
+  footer p{ opacity:.7; }
+  footer .talabat{
+    margin-top:14px; display:inline-flex; align-items:center; gap:8px;
+    color:var(--gold-bright); font-weight:700; font-size:.88rem;
+  }
+
+  ::selection{ background:var(--gold); color:var(--maroon-deep); }
+
+  /* ================= SCROLL REVEAL ================= */
+  .reveal{
+    opacity:0; transform:translateY(26px);
+    transition:opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1);
+  }
+  .reveal.in-view{ opacity:1; transform:translateY(0); }
+  .reveal-stagger > *{ opacity:0; transform:translateY(20px); transition:opacity .6s ease, transform .6s ease; }
+  .reveal-stagger.in-view > *{ opacity:1; transform:translateY(0); }
+  .reveal-stagger.in-view > *:nth-child(1){ transition-delay:.02s; }
+  .reveal-stagger.in-view > *:nth-child(2){ transition-delay:.09s; }
+  .reveal-stagger.in-view > *:nth-child(3){ transition-delay:.16s; }
+  .reveal-stagger.in-view > *:nth-child(4){ transition-delay:.23s; }
+  .reveal-stagger.in-view > *:nth-child(5){ transition-delay:.3s; }
+  .reveal-stagger.in-view > *:nth-child(6){ transition-delay:.37s; }
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal, .reveal-stagger > *{ opacity:1 !important; transform:none !important; transition:none !important; }
+    .medallion, .hero-eyebrow, .hero h1, .hero-arabic, .hero-tag, .hero-ctas, .steam path{ animation:none !important; opacity:1 !important; }
+  }
+
+  /* extra motion & hover life */
+  .loc-card{ transition:transform .25s ease, box-shadow .25s ease; }
+  .loc-card:hover{ transform:translateY(-5px); box-shadow:0 14px 32px rgba(92,15,20,.14); }
+
+  .menu-item{ transition:background .2s ease, padding-left .2s ease; border-radius:6px; }
+  .menu-item:hover{ background:rgba(247,240,227,.06); padding-left:8px; }
+
+  .tab-btn{ position:relative; overflow:hidden; }
+  .tab-btn.active{ animation:tabPop .35s ease; }
+  @keyframes tabPop{ 0%{ transform:scale(.92); } 60%{ transform:scale(1.04); } 100%{ transform:scale(1); } }
+
+  .nav-links a{ position:relative; }
+  .nav-links a::after{
+    content:''; position:absolute; left:0; bottom:-4px; width:0; height:2px; background:var(--gold);
+    transition:width .25s ease;
+  }
+  .nav-links a:hover::after{ width:100%; }
+
+  .call-row a.callbtn{ animation:none; }
+  .call-row a.callbtn:active{ transform:scale(.94); }
+
+  .btn:active{ transform:translateY(0) scale(.96); }
+
+  .directions-link{
+    display:inline-flex; align-items:center; gap:6px; margin-top:14px;
+    color:var(--maroon); font-weight:700; font-size:.88rem; transition:gap .2s ease, color .2s ease;
+  }
+  .directions-link:hover{ gap:10px; color:var(--maroon-bright); }
+  .directions-link svg{ width:15px; height:15px; transition:transform .2s ease; }
+  .directions-link:hover svg{ transform:translateX(2px); }
+
+  .social-icon{ transition:transform .3s ease; }
+  .social-card:hover .social-icon{ transform:rotate(-8deg) scale(1.08); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="nav-brand">
+      <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="#7a1420"/><path d="M30 62 Q30 40 50 30 Q70 40 70 62 Z" fill="none" stroke="#f7f0e3" stroke-width="4"/><circle cx="50" cy="28" r="4" fill="#f7f0e3"/></svg>
+      <span data-ar="المطبخ الحيدرآبادي">Hyderabadi Kitchen</span>
+    </div>
+    <div class="nav-links">
+      <a href="#menu" data-ar="القائمة">Menu</a>
+      <a href="#locations" data-ar="الفروع">Locations</a>
+      <a href="#connect" data-ar="تواصل معنا">Connect</a>
+    </div>
+    <div class="lang-toggle">
+      <button id="langEnBtn" class="lang-btn active" type="button">EN</button>
+      <button id="langArBtn" class="lang-btn" type="button">عربي</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO / LOGO INTRO ============ -->
+<header class="hero">
+  <div class="medallion">
+    <svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+      <path d="M35 92 Q35 55 70 40 Q105 55 105 92 Z" fill="none" stroke="#f7f0e3" stroke-width="5"/>
+      <circle cx="70" cy="36" r="5" fill="#f7f0e3"/>
+      <g class="steam" stroke="#e8732c" stroke-width="3.4" fill="none" stroke-linecap="round">
+        <path d="M58 88 Q54 78 60 70 Q66 62 60 54"/>
+        <path d="M72 88 Q68 78 74 70 Q80 62 74 54"/>
+      </g>
+      <ellipse cx="70" cy="98" rx="26" ry="8" fill="#f7f0e3"/>
+    </svg>
+  </div>
+  <p class="hero-eyebrow" data-ar="تأسست عام 1980 &middot; مسقط، عُمان">Est. 1980 &middot; Muscat, Oman</p>
+  <h1 data-ar="المطبخ الحيدرآبادي">Hyderabadi Kitchen</h1>
+  <p class="hero-arabic">المطبخ الحيدرآبادي</p>
+  <p class="hero-tag" data-ar="&quot;استمتع بجوهر حيدرآباد في كل قضمة من برياني&quot;">"Savor the essence of Hyderabad with every bite of our Biryani"</p>
+  <div class="hero-ctas">
+    <a href="#menu" class="btn btn-gold" data-ar="شاهد القائمة">View the Menu</a>
+  </div>
+  <div class="hero-scallop">
+    <svg viewBox="0 0 1200 60" preserveAspectRatio="none">
+      <path d="M0,60 L0,30 Q25,0 50,30 T100,30 T150,30 T200,30 T250,30 T300,30 T350,30 T400,30 T450,30 T500,30 T550,30 T600,30 T650,30 T700,30 T750,30 T800,30 T850,30 T900,30 T950,30 T1000,30 T1050,30 T1100,30 T1150,30 T1200,30 L1200,60 Z" fill="#f7f0e3"/>
+    </svg>
+  </div>
+</header>
+
+<!-- ============ ORIGIN / ABOUT ============ -->
+<section class="section" style="padding-top:20px;">
+  <div class="wrap" style="max-width:760px; text-align:center;">
+    <div class="section-head reveal">
+      <span class="kicker">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20 Q4 10 12 6 Q20 10 20 20"/></svg>
+        <span data-ar="قصتنا">Our Story</span>
+      </span>
+      <h2 data-ar="أصل البرياني">The Origin of Biryani</h2>
+    </div>
+    <p class="reveal" data-ar="التاريخ الطهي لحيدرآباد لا يضاهيه أي إقليم آخر في الهند. ما بدأ كأطباق لإطعام الجيوش تحوّل ببطء، في مطابخ النظّام، إلى مطبخ فاخر — غني ومعطّر لا يُنسى. حتى اليوم، لا يغادر أي زائر حيدرآباد دون أن يتذوق برياني الشهيرة." style="color:#5a4a3f; line-height:1.75; font-size:1.02rem;">
+      The culinary history of Hyderabad is unmatched by any princely state of India. What began as dishes born of necessity to feed marching armies were slowly elevated, in the kitchens of the Nizams, into a fine gourmet cuisine &mdash; expensive, aromatic, and unforgettable. To this day, no visitor leaves Hyderabad without a date with its ubiquitous biryani.
+    </p>
+    <p class="reveal" data-ar="منذ عام 1980، تحمل المطبخ الحيدرآبادي هذا الإرث إلى عُمان — وجهة بارزة للطلبات الخارجية، والتموين الخاص، والتوصيل المنزلي، والولائم التي تليق بالملوك." style="color:#5a4a3f; line-height:1.75; font-size:1.02rem; margin-top:16px;">
+      Since 1980, Hyderabadi Kitchen has carried that legacy to Oman &mdash; a landmark destination for take-away, private catering, home delivery, and feasts fit for kings.
+    </p>
+    <div class="divider-motif">
+      <svg viewBox="0 0 90 16"><path d="M0 8 H30 M60 8 H90" stroke="#c9962c" stroke-width="1.5"/><circle cx="45" cy="8" r="5" fill="none" stroke="#c9962c" stroke-width="1.5"/></svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MENU ============ -->
+<section class="section menu-section" id="menu">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="kicker">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3v18M18 3v6a3 3 0 0 1-6 0V3"/></svg>
+        بریانی
+      </span>
+      <h2 data-ar="قائمة الطعام">The Menu</h2>
+      <p data-ar="برياني مطهو ببطء، كباب من التنور، وأطباق حيدرآبادية أصيلة &mdash; كلها على وصفات 1980 الأصلية.">Slow-cooked biryani, tandoor kababs, and Hyderabadi classics &mdash; every dish built on the original 1980 recipes.</p>
+    </div>
+
+    <div class="tabs" id="tabs">
+      <button class="tab-btn active" data-tab="biryani" data-ar="برياني">Biryani</button>
+      <button class="tab-btn" data-tab="curries" data-ar="الكاري">Curries</button>
+      <button class="tab-btn" data-tab="kabab" data-ar="كباب">Kabab</button>
+      <button class="tab-btn" data-tab="specials" data-ar="أطباق مميزة">Signature &amp; Specials</button>
+      <button class="tab-btn" data-tab="sides" data-ar="خبز ومأكولات بحرية وأطباق جانبية">Breads, Seafood &amp; Sides</button>
+      <button class="tab-btn" data-tab="sweets" data-ar="حلويات ومشروبات">Desserts &amp; Drinks</button>
+    </div>
+
+    <!-- BIRYANI -->
+    <div class="menu-panel active" data-panel="biryani">
+      <div class="menu-group">
+        <h3 data-ar="برياني">Biryani</h3>
+        <div class="menu-grid">
+          <div class="menu-item"><span class="name" data-ar="دجاج برياني حيدرآبادي <span class="spice">(دجاج طازج)</span>">Chicken Dum Biryani <span class="spice">(fresh chicken)</span></span><span class="price">2.100</span></div>
+          <div class="menu-item"><span class="name" data-ar="لحم برياني حيدرآبادي">Mutton Dum Biryani</span><span class="price">2.200</span></div>
+          <div class="menu-item"><span class="name" data-ar="دجاج بریانی تكا">Chicken Tikka Biryani</span><span class="price">2.300</span></div>
+          <div class="menu-item"><span class="name" data-ar="دجاج 65 برياني">Chicken 65 Biryani</span><span class="price">2.000</span></div>
+          <div class="menu-item"><span class="name" data-ar="برياني لحم مقلي">Mutton Fry Biryani</span><span class="price">2.500</span></div>
+          <div class="menu-item"><span class="name" data-ar="برياني سمك حيدرآبادي">Fish Biryani Hyderabadi</span><span class="price">2.500</span></div>
+          <div class="menu-item"><span class="name" data-ar="برياني روبيان">Prawns Biryani</span><span class="price">2.200</span></div>
+          <div class="menu-item"><span class="name" data-ar="دجاج برياني">Chicken Biryani</span><span class="price">1.800</span></div>
+          <div class="menu-item"><span class="name" data-ar="برياني بالجبن">Paneer Biryani</span><span class="price">1.800</span></div>
+          <div class="menu-item"><span class="name" data-ar="برياني خضار">Veg Biryani</span><span class="price">1.800</span></div>
+          <div class="menu-item"><span class="name" data-ar="برياني بيض">Egg Biryani</span><span class="price">1.300</span></div>
+        </div>
+      </div>
+      <div class="menu-group">
+        <h3 data-ar="أرز">Rice</h3>
+        <div class="menu-grid">
+          <div class="menu-item"><span class="name" data-ar="أرز أبيض">White Rice</span><span class="price">0.800</span></div>
+          <div class="menu-item"><span class="name" data-ar="أرز جيرا">Zeera Rice</span><span class="price">1.600</span></div>
+          <div class="menu-item"><span class="name" data-ar="أرز برياني">Biryani Rice</span><span class="price">1.100</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CURRIES -->
+    <div class="menu-panel" data-panel="curries">
+      <div class="menu-group">
+        <h3 data-ar="دجاج">Chicken</h3>
+        <div class="menu-grid">
+          <div class="menu-item"><span class="name" data-ar="دجاج بالزبدة <span class="spice">(الأكثر طلبًا)</span>">Butter Chicken <span class="spice">(house favorite)</span></span><span class="price">2.100</span></div>
+          <div class="menu-item"><span class="name" data-ar="دجاج تكا ماسالا">Chicken Tikka Masala</span><span class="price">2.100</span></div>
+          <div class="menu-item"><span class="name" data-ar="دجاج ميثي">Methi Chicken</span><span class="price">1.900</span></div>
+          <div class="menu-item"><span class="name" data-ar="دجاج قداحي">Kadahi Chicken</span><span class="price">1.900</span></div>
+          <div class="menu-item"><span class="name" data-ar="دجاج كورما باللوز">Badami Chicken Ka Korma</span><span class="price">2.000</span></div>
+          <div class="menu-item"><span class="name" data-ar="دجاج أشاري <span class="spice">🌶</span>">Achari Chicken <span class="spice">🌶</span></span><span class="price">2.000</span></div>
+          <div class="menu-item"><span class="name" data-ar="دجاج وليمة حيدرآبادي">Chicken Walima Hyderabadi</span><span class="price">2.200</span></div>
+          <div class="menu-item"><span class="name" data-ar="دجاج دمكا">Dum Ka Chicken</span><span class="price">2.100</span></div>
+          <div class="menu-item"><span class="name" data-ar="دجاج دوبيازا">Chicken Dopiyaza</span><span class="price">2.000</span></div>
+          <div class="menu-item"><span class="name" data-ar="دجاج دهاتي">Hyd Kitchen's Chicken Dehati</span><span class="price">2.200</span></div>
+        </div>
+      </div>
+      <div class="menu-group">
+        <h3 data-ar="لحم ضأن">Mutton</h3>
+        <div class="menu-grid">
+          <div class="menu-item"><span class="name" data-ar="لحم بادامي كورما">Mutton Badami Korma</span><span class="price">2.100</span></div>
+          <div class="menu-item"><span class="name" data-ar="لحم روغان جوش">Mutton Rogan Josh</span><span class="price">2.100</span></div>
+          <div class="menu-item"><span class="name" data-ar="سبانخ مع لحم الضأن حيدرآبادي">Palak Gosht Hyderabadi</span><span class="price">2.300</span></div>
+          <div class="menu-item"><span class="name" data-ar="لحم مع دال">Daal Gosht</span><span class="price">2.300</span></div>
+          <div class="menu-item"><span class="name" data-ar="لحم الضأن شاتباتا">Mutton Chatpata</span><span class="price">2.300</span></div>
+          <div class="menu-item"><span class="name" data-ar="لحم ضأن بالفلفل الأسود مقلي">Mutton Black Pepper Fry</span><span class="price">2.300</span></div>
+          <div class="menu-item"><span class="name" data-ar="لحم كرالي">Mutton Kadahi</span><span class="price">2.100</span></div>
+          <div class="menu-item"><span class="name" data-ar="لحم أنجارا <span class="spice">🌶</span>">Mutton Angara <span class="spice">🌶</span></span><span class="price">2.200</span></div>
+          <div class="menu-item"><span class="name" data-ar="لحم اشاري <span class="spice">🌶</span>">Mutton Achari <span class="spice">🌶</span></span><span class="price">2.200</span></div>
+          <div class="menu-item"><span class="name" data-ar="قيمة نوابي فراي">Qeema Nawabi Fry</span><span class="price">2.200</span></div>
+          <div class="menu-item"><span class="name" data-ar="دم كا قيمة">Dum-ka-Qeema</span><span class="price">2.100</span></div>
+          <div class="menu-item"><span class="name" data-ar="البامية مع اللحم المفروم">Bhindi Qeema</span><span class="price">2.100</span></div>
+        </div>
+      </div>
+      <div class="menu-group">
+        <h3 data-ar="نباتي">Vegetarian</h3>
+        <div class="menu-grid">
+          <div class="menu-item"><span class="name" data-ar="سبانخ بالجبن">Palak Paneer</span><span class="price">2.200</span></div>
+          <div class="menu-item"><span class="name" data-ar="جبن بالزبدة ماسالا">Paneer Butter Masala</span><span class="price">2.200</span></div>
+          <div class="menu-item"><span class="name" data-ar="جبنة بالثوم">Paneer Lasooni</span><span class="price">2.100</span></div>
+          <div class="menu-item"><span class="name" data-ar="ماسالا الخضار">Veg Kadahi</span><span class="price">1.800</span></div>
+          <div class="menu-item"><span class="name" data-ar="خليط الخضار ماسالا">Veg Jalfarezi</span><span class="price">1.900</span></div>
+          <div class="menu-item"><span class="name" data-ar="جبن 65">Paneer 65</span><span class="price">2.300</span></div>
+          <div class="menu-item"><span class="name" data-ar="قرنبيط منشوريان">Gobi Manchurian</span><span class="price">1.900</span></div>
+          <div class="menu-item"><span class="name" data-ar="خضار مشكلة">Mix Vegetables</span><span class="price">1.700</span></div>
+          <div class="menu-item"><span class="name" data-ar="جبن بورجي">Paneer Burgi</span><span class="price">2.300</span></div>
+          <div class="menu-item"><span class="name" data-ar="بامية مقلية">Bhindi Fry</span><span class="price">1.600</span></div>
+          <div class="menu-item"><span class="name" data-ar="دال تادكا">Daal Tadka</span><span class="price">1.600</span></div>
+          <div class="menu-item"><span class="name" data-ar="دال مقلي">Daal Fry</span><span class="price">1.600</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KABAB -->
+    <div class="menu-panel" data-panel="kabab">
+      <div class="menu-group">
+        <h3 data-ar="كباب &mdash; غير نباتي">Kabab &mdash; Non-Vegetarian</h3>
+        <div class="menu-grid">
+          <div class="menu-item"><span class="name" data-ar="دجاج تندوري (نصف / كامل)">Tandoori Chicken (Half/Full)</span><span class="price">2.000 / 3.300</span></div>
+          <div class="menu-item"><span class="name" data-ar="دجاج تيكا <span class="spice">🌶</span>">Chicken Tikka <span class="spice">🌶</span></span><span class="price">2.200</span></div>
+          <div class="menu-item"><span class="name" data-ar="دجاج مالاي بوتي">Chicken Malai Boti</span><span class="price">2.200</span></div>
+          <div class="menu-item"><span class="name" data-ar="سيخ كباب دجاج">Chicken Sheek Kabab</span><span class="price">2.200</span></div>
+          <div class="menu-item"><span class="name" data-ar="دجاج تيكا ملثوم">Murg Lasuni Tikka Chicken</span><span class="price">2.200</span></div>
+          <div class="menu-item"><span class="name" data-ar="تيكا أشاري">Achari Tikka</span><span class="price">2.100</span></div>
+          <div class="menu-item"><span class="name" data-ar="سيخ كباب لحم">Mutton Sheek Kabab</span><span class="price">2.400</span></div>
+          <div class="menu-item"><span class="name" data-ar="سمك تيكا (كنعد)">Fish Tikka (King Fish)</span><span class="price">2.600</span></div>
+          <div class="menu-item"><span class="name" data-ar="طبق مشكل (صغير / كبير)">Mix Platter (Small/Big)</span><span class="price">3.500 / 7.000</span></div>
+        </div>
+      </div>
+      <div class="menu-group">
+        <h3 data-ar="كباب &mdash; نباتي">Kabab &mdash; Vegetarian</h3>
+        <div class="menu-grid">
+          <div class="menu-item"><span class="name" data-ar="تيكا جبن">Paneer Tikka</span><span class="price">2.700</span></div>
+          <div class="menu-item"><span class="name" data-ar="بطاطس أشاري">Achari Aloo</span><span class="price">1.800</span></div>
+          <div class="menu-item"><span class="name" data-ar="شيخ الذرة الملاي">Corn Malai Sheek</span><span class="price">2.000</span></div>
+          <div class="menu-item"><span class="name" data-ar="شيخ ميثي ملاي خضار">Veg Malai Methi Sheek</span><span class="price">2.000</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SPECIALS -->
+    <div class="menu-panel" data-panel="specials">
+      <div class="menu-group">
+        <h3 data-ar="أطباق مميزة وعروض نهاية الأسبوع">Signature &amp; Weekend Specials</h3>
+        <div class="menu-grid">
+          <div class="menu-item"><span class="name" data-ar="لحم ضأن مقلي على الحجر <span class="spice">الخميس، الجمعة، السبت</span>">Phattar-ka-Gosht <span class="spice">Thu/Fri/Sat</span></span><span class="price">2.800</span></div>
+          <div class="menu-item"><span class="name" data-ar="هريس حيدرآبادي <span class="spice">الخميس، الجمعة، السبت</span>">Haleem Hyderabadi <span class="spice">Thu/Fri/Sat</span></span><span class="price">1.900</span></div>
+          <div class="menu-item"><span class="name" data-ar="مرق">Marag</span><span class="price">2.300</span></div>
+          <div class="menu-item"><span class="name" data-ar="تكا دجاج بالزعفران">Zafrani Malai Boti</span><span class="price">2.600</span></div>
+          <div class="menu-item"><span class="name" data-ar="الخاص اليوم &mdash; دجاج">Today's Chef Special &mdash; Chicken</span><span class="price">1.900</span></div>
+          <div class="menu-item"><span class="name" data-ar="الخاص اليوم &mdash; لحم ضأن">Today's Chef Special &mdash; Mutton</span><span class="price">1.900</span></div>
+        </div>
+        <p data-ar="الهريس &mdash; عصيدة سميكة من القمح المجروش ولحم الضأن والتوابل، تُطهى ببطء لساعات حتى تصبح ناعمة. تقليد يقدَّم في عطلة نهاية الأسبوع فقط." style="margin-top:16px; color:#e6d6c2; font-size:.88rem; font-style:italic;">Haleem &mdash; a thick, savory porridge of cracked wheat, lamb, and spices, slow-cooked for hours until smooth. A weekend-only tradition.</p>
+      </div>
+    </div>
+
+    <!-- SIDES -->
+    <div class="menu-panel" data-panel="sides">
+      <div class="menu-group">
+        <h3 data-ar="مأكولات بحرية">Seafood</h3>
+        <div class="menu-grid">
+          <div class="menu-item"><span class="name" data-ar="سمك حيدرآبادي ماسالا">Fish Hyderabadi Masala</span><span class="price">2.600</span></div>
+          <div class="menu-item"><span class="name" data-ar="روبيان حيدرآبادي ماسالا">Prawns Hyderabadi Masala</span><span class="price">2.100</span></div>
+          <div class="menu-item"><span class="name" data-ar="روبيان شاتباتا <span class="spice">🌶</span>">Prawns Chatpata <span class="spice">🌶</span></span><span class="price">2.300</span></div>
+        </div>
+      </div>
+      <div class="menu-group">
+        <h3 data-ar="خبز">Breads</h3>
+        <div class="menu-grid">
+          <div class="menu-item"><span class="name" data-ar="براتا حيدرآبادي">Hyderabadi Paratha</span><span class="price">0.200</span></div>
+          <div class="menu-item"><span class="name" data-ar="شاباتي تاوا">Tawa Chapati</span><span class="price">0.100</span></div>
+          <div class="menu-item"><span class="name" data-ar="خبز الفرن">Tandoor ki Roti</span><span class="price">0.200</span></div>
+          <div class="menu-item"><span class="name" data-ar="نان عادي">Plain Naan</span><span class="price">0.300</span></div>
+          <div class="menu-item"><span class="name" data-ar="نان بالزبدة">Butter Naan</span><span class="price">0.400</span></div>
+          <div class="menu-item"><span class="name" data-ar="نان بالثوم">Garlic Naan</span><span class="price">0.400</span></div>
+          <div class="menu-item"><span class="name" data-ar="كولشا">Kulcha</span><span class="price">0.300</span></div>
+          <div class="menu-item"><span class="name" data-ar="سلة خبز">Bread Basket</span><span class="price">2.400</span></div>
+        </div>
+      </div>
+      <div class="menu-group">
+        <h3 data-ar="إضافات">Add-ons</h3>
+        <div class="menu-grid">
+          <div class="menu-item"><span class="name" data-ar="إضافة دجاج">Extra Chicken</span><span class="price">1.000</span></div>
+          <div class="menu-item"><span class="name" data-ar="رايتا إضافية">Extra Raita</span><span class="price">0.400</span></div>
+          <div class="menu-item"><span class="name" data-ar="بيض مسلوق إضافي">Extra Boiled Egg</span><span class="price">0.100</span></div>
+          <div class="menu-item"><span class="name" data-ar="أرز أبيض">White Rice</span><span class="price">0.800</span></div>
+          <div class="menu-item"><span class="name" data-ar="عنصر إضافي">Extra Item</span><span class="price">0.500</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SWEETS -->
+    <div class="menu-panel" data-panel="sweets">
+      <div class="menu-group">
+        <h3 data-ar="حلويات">Desserts</h3>
+        <div class="menu-grid">
+          <div class="menu-item"><span class="name" data-ar="شاهي تكدة">Shahi Tukde</span><span class="price">0.700</span></div>
+          <div class="menu-item"><span class="name" data-ar="حلوى اليقطين">Kaddu ki Kheer</span><span class="price">0.700</span></div>
+          <div class="menu-item"><span class="name" data-ar="حلوى المشمش">Qubaani ka Meetha</span><span class="price">0.800</span></div>
+          <div class="menu-item"><span class="name" data-ar="فيرني حيدرآبادي">Hyderabadi Firni</span><span class="price">0.800</span></div>
+          <div class="menu-item"><span class="name" data-ar="جلاب جامون">Gulab Jamun</span><span class="price">0.700</span></div>
+          <div class="menu-item"><span class="name" data-ar="حلوى الجزر">Gajar Ka Halwa</span><span class="price">0.800</span></div>
+        </div>
+      </div>
+      <div class="menu-group">
+        <h3 data-ar="مشروبات وسلطة">Beverages &amp; Salad</h3>
+        <div class="menu-grid">
+          <div class="menu-item"><span class="name" data-ar="لاسي (حلو / مالح)">Lassi (Sweet/Salt)</span><span class="price">0.900</span></div>
+          <div class="menu-item"><span class="name" data-ar="مانجو لاسي">Mango Lassi</span><span class="price">1.100</span></div>
+          <div class="menu-item"><span class="name" data-ar="عصير برتقال">Orange Juice</span><span class="price">1.100</span></div>
+          <div class="menu-item"><span class="name" data-ar="صودا ليمون ونعناع">Fresh Lime Mint Soda</span><span class="price">0.900</span></div>
+          <div class="menu-item"><span class="name" data-ar="علبة مشروبات غازية">Soft Drinks Can</span><span class="price">0.300</span></div>
+          <div class="menu-item"><span class="name" data-ar="قهوة (بالحليب الطازج)">Coffee (Fresh Milk)</span><span class="price">0.600</span></div>
+          <div class="menu-item"><span class="name" data-ar="سلطة خضراء">Green Salad</span><span class="price">0.800</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ LOCATIONS ============ -->
+<section class="section" id="locations">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="kicker">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.5-7-11a7 7 0 0 1 14 0c0 4.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+        <span data-ar="موقعنا">Find Us</span>
+      </span>
+      <h2 data-ar="فرعان، إرث واحد">Two Branches, One Legacy</h2>
+      <p data-ar="تناول الطعام في المطعم، أو اطلب توصيلًا في جميع أنحاء مسقط.">Dine in, take away, or order for delivery across Muscat.</p>
+    </div>
+
+    <div class="loc-grid reveal-stagger">
+      <div class="loc-card">
+        <h3>
+          <svg viewBox="0 0 24 24" fill="none" stroke="#7a1420" stroke-width="2"><path d="M12 21s-7-6.5-7-11a7 7 0 0 1 14 0c0 4.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          <span data-ar="الخوير">Al Khuwair</span>
+        </h3>
+        <p class="addr" data-ar="شارع الخوير، مسقط 133، عُمان">Al Khuwair Street, Muscat 133, Oman</p>
+        <div class="hours">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+          <span data-ar="يوميًا، 11:30 صباحًا &ndash; 12:30 صباحًا">11:30 AM &ndash; 12:30 AM, Daily</span>
+        </div>
+        <div class="call-row">
+          <div>
+            <div class="label" data-ar="اتصل للطلب">Call to order</div>
+            <div class="num">+968 9657 2181</div>
+            <a class="directions-link" href="https://maps.app.goo.gl/taSCWBDN6iU1Q1Te7" target="_blank" rel="noopener" style="margin-top:6px;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+              <span data-ar="احصل على الاتجاهات">Get Directions</span>
+            </a>
+          </div>
+          <a class="callbtn" href="tel:+96896572181">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <span data-ar="اتصال">Call</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="loc-card">
+        <h3>
+          <svg viewBox="0 0 24 24" fill="none" stroke="#7a1420" stroke-width="2"><path d="M12 21s-7-6.5-7-11a7 7 0 0 1 14 0c0 4.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          <span data-ar="الخوض">Al Khoud</span>
+        </h3>
+        <p class="addr" data-ar="شارع البركات، الخوض، السيب، عُمان">Al Barakat Street, Al Khoud, Seeb, Oman</p>
+        <div class="hours">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+          <span data-ar="يوميًا، 11:30 صباحًا &ndash; 12:30 صباحًا">11:30 AM &ndash; 12:30 AM, Daily</span>
+        </div>
+        <div class="call-row">
+          <div>
+            <div class="label" data-ar="اتصل للطلب">Call to order</div>
+            <div class="num">+968 9440 0278</div>
+            <a class="directions-link" href="https://maps.app.goo.gl/cQDVZpKi8qFHZWE89" target="_blank" rel="noopener" style="margin-top:6px;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+              <span data-ar="احصل على الاتجاهات">Get Directions</span>
+            </a>
+          </div>
+          <a class="callbtn" href="tel:+96894400278">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <span data-ar="اتصال">Call</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SOCIAL / REVIEWS ============ -->
+<section class="social-strip" id="connect">
+  <div class="section-head reveal" style="margin-bottom:34px;">
+    <h2 style="color:var(--maroon-deep);" data-ar="تواصل معنا">Stay Connected</h2>
+  </div>
+  <div class="social-inner reveal-stagger">
+    <a class="social-card" href="https://www.instagram.com/hyderabadi_kitchen_oman" target="_blank" rel="noopener">
+      <div class="social-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+      </div>
+      <div>
+        <h4 data-ar="تابعنا على انستغرام">Follow on Instagram</h4>
+        <p data-ar="@hyderabadi_kitchen_oman">@hyderabadi_kitchen_oman</p>
+      </div>
+    </a>
+    <a class="social-card" href="https://www.google.com/search?q=hyderabadi+kitchen+review" target="_blank" rel="noopener">
+      <div class="social-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </div>
+      <div>
+        <h4 data-ar="قيّمنا">Leave a Review</h4>
+        <p data-ar="شارك تجربتك على جوجل">Share your experience on Google</p>
+      </div>
+    </a>
+    <a class="social-card" href="https://www.talabat.com/oman/restaurant/701937/hyderabadi-kitchen-al-khuwayr-south" target="_blank" rel="noopener">
+      <div class="social-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h2l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/><circle cx="9" cy="21" r="1"/><circle cx="18" cy="21" r="1"/></svg>
+      </div>
+      <div>
+        <h4 data-ar="اطلب التوصيل">Order Delivery</h4>
+        <p data-ar="فرع الخوير، عبر طلبات">Al Khuwair branch, via Talabat</p>
+      </div>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="fmedallion">
+    <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="none" stroke="#c9962c" stroke-width="2"/><path d="M30 62 Q30 40 50 30 Q70 40 70 62 Z" fill="none" stroke="#f7f0e3" stroke-width="3"/></svg>
+  </div>
+  <p data-ar="المطبخ الحيدرآبادي &middot; مسقط، عُمان &middot; تأسست عام 1980">Hyderabadi Kitchen &middot; Muscat, Oman &middot; Est. 1980</p>
+  <div class="talabat">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h2l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+    <span data-ar="اطلب عبر طلبات">Order on Talabat</span>
+  </div>
+</footer>
+
+<script>
+  // ---------- Language toggle ----------
+  function setLang(lang){
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.querySelectorAll('[data-ar]').forEach(el => {
+      if(el.dataset.enOriginal === undefined){ el.dataset.enOriginal = el.innerHTML; }
+      el.innerHTML = lang === 'ar' ? el.dataset.ar : el.dataset.enOriginal;
+    });
+    document.getElementById('langEnBtn').classList.toggle('active', lang === 'en');
+    document.getElementById('langArBtn').classList.toggle('active', lang === 'ar');
+  }
+  document.getElementById('langEnBtn').addEventListener('click', () => setLang('en'));
+  document.getElementById('langArBtn').addEventListener('click', () => setLang('ar'));
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in-view'); io.unobserve(e.target); } });
+  }, { threshold:.15, rootMargin:'0px 0px -60px 0px' });
+  document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => io.observe(el));
+
+  const tabs = document.querySelectorAll('.tab-btn');
+  const panels = document.querySelectorAll('.menu-panel');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      panels.forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.querySelector(`.menu-panel[data-panel="${tab.dataset.tab}"]`).classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
