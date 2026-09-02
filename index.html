@@ -188,6 +188,7 @@
   .menu-section .section-head p{ color:#e6d6c2; }
   .menu-section .kicker{ color:var(--gold-bright); }
 
+  .menu-radio{position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;}
   .tabs{
     display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-bottom:38px;
   }
@@ -195,18 +196,25 @@
     padding:9px 18px; border-radius:999px; border:1.5px solid rgba(247,240,227,.3);
     background:transparent; color:var(--cream); font-family:'Karla',sans-serif;
     font-weight:600; font-size:.88rem; cursor:pointer; transition:all .2s ease;
+    display:inline-flex; align-items:center; justify-content:center;
   }
   .tab-btn:hover{ border-color:var(--gold); }
-  .tab-btn.active, .tab-btn:target{ background:var(--gold); color:var(--maroon-deep); border-color:var(--gold); }
-  .tabs .tab-btn[href="#menu-biryani"]{ background:var(--gold); color:var(--maroon-deep); border-color:var(--gold); }
-  .menu-section:has(#menu-curries:target) .tabs .tab-btn[href="#menu-biryani"], .menu-section:has(#menu-kabab:target) .tabs .tab-btn[href="#menu-biryani"], .menu-section:has(#menu-specials:target) .tabs .tab-btn[href="#menu-biryani"], .menu-section:has(#menu-sides:target) .tabs .tab-btn[href="#menu-biryani"], .menu-section:has(#menu-sweets:target) .tabs .tab-btn[href="#menu-biryani"]{ background:transparent; color:var(--cream); border-color:rgba(247,240,227,.3); }
-  .menu-section:has(#menu-curries:target) .tabs .tab-btn[href="#menu-curries"], .menu-section:has(#menu-kabab:target) .tabs .tab-btn[href="#menu-kabab"], .menu-section:has(#menu-specials:target) .tabs .tab-btn[href="#menu-specials"], .menu-section:has(#menu-sides:target) .tabs .tab-btn[href="#menu-sides"], .menu-section:has(#menu-sweets:target) .tabs .tab-btn[href="#menu-sweets"]{ background:var(--gold); color:var(--maroon-deep); border-color:var(--gold); }
-
-  .menu-panel{ display:none; }
-  #menu-biryani{ display:block; }
-  .menu-panel:target{ display:block; animation:fadeUp .4s ease; }
-  .tab-btn{ display:inline-flex; align-items:center; justify-content:center; }
-  .menu-section:has(.menu-panel:target) #menu-biryani{ display:none; }
+  .menu-radio:checked + .menu-radio + .menu-radio + .menu-radio + .menu-radio + .menu-radio ~ .tabs label[for="menu-tab-biryani"],
+  #menu-tab-biryani:checked ~ .tabs label[for="menu-tab-biryani"],
+  #menu-tab-curries:checked ~ .tabs label[for="menu-tab-curries"],
+  #menu-tab-kabab:checked ~ .tabs label[for="menu-tab-kabab"],
+  #menu-tab-specials:checked ~ .tabs label[for="menu-tab-specials"],
+  #menu-tab-sides:checked ~ .tabs label[for="menu-tab-sides"],
+  #menu-tab-sweets:checked ~ .tabs label[for="menu-tab-sweets"]{
+    background:var(--gold); color:var(--maroon-deep); border-color:var(--gold);
+  }
+  .menu-panel{display:none; animation:fadeUp .4s ease;}
+  #menu-tab-biryani:checked ~ #menu-biryani,
+  #menu-tab-curries:checked ~ #menu-curries,
+  #menu-tab-kabab:checked ~ #menu-kabab,
+  #menu-tab-specials:checked ~ #menu-specials,
+  #menu-tab-sides:checked ~ #menu-sides,
+  #menu-tab-sweets:checked ~ #menu-sweets{display:block;}
 
   .menu-group{ margin-bottom:34px; }
   .menu-group h3{
@@ -438,17 +446,24 @@
       <p data-ar="برياني مطهو ببطء، كباب من التنور، وأطباق حيدرآبادية أصيلة &mdash; كلها على وصفات 1980 الأصلية.">Slow-cooked biryani, tandoor kababs, and Hyderabadi classics &mdash; every dish built on the original 1980 recipes.</p>
     </div>
 
+    <input class="menu-radio" type="radio" name="menu-tab" id="menu-tab-biryani" checked>
+    <input class="menu-radio" type="radio" name="menu-tab" id="menu-tab-curries">
+    <input class="menu-radio" type="radio" name="menu-tab" id="menu-tab-kabab">
+    <input class="menu-radio" type="radio" name="menu-tab" id="menu-tab-specials">
+    <input class="menu-radio" type="radio" name="menu-tab" id="menu-tab-sides">
+    <input class="menu-radio" type="radio" name="menu-tab" id="menu-tab-sweets">
+
     <div class="tabs" id="tabs">
-      <a class="tab-btn active" href="#menu-biryani" data-ar="برياني">Biryani</a>
-      <a class="tab-btn" href="#menu-curries" data-ar="الكاري">Curries</a>
-      <a class="tab-btn" href="#menu-kabab" data-ar="كباب">Kabab</a>
-      <a class="tab-btn" href="#menu-specials" data-ar="أطباق مميزة">Signature &amp; Specials</a>
-      <a class="tab-btn" href="#menu-sides" data-ar="خبز ومأكولات بحرية وأطباق جانبية">Breads, Seafood &amp; Sides</a>
-      <a class="tab-btn" href="#menu-sweets" data-ar="حلويات ومشروبات">Desserts &amp; Drinks</a>
+      <label class="tab-btn" for="menu-tab-biryani" data-ar="برياني">Biryani</label>
+      <label class="tab-btn" for="menu-tab-curries" data-ar="الكاري">Curries</label>
+      <label class="tab-btn" for="menu-tab-kabab" data-ar="كباب">Kabab</label>
+      <label class="tab-btn" for="menu-tab-specials" data-ar="أطباق مميزة">Signature &amp; Specials</label>
+      <label class="tab-btn" for="menu-tab-sides" data-ar="خبز ومأكولات بحرية وأطباق جانبية">Breads, Seafood &amp; Sides</label>
+      <label class="tab-btn" for="menu-tab-sweets" data-ar="حلويات ومشروبات">Desserts &amp; Drinks</label>
     </div>
 
     <!-- BIRYANI -->
-    <div id="menu-biryani" class="menu-panel active force-show" data-panel="biryani">
+    <div id="menu-biryani" class="menu-panel" data-panel="biryani">
       <div class="menu-group">
         <h3 data-ar="برياني">Biryani</h3>
         <div class="menu-grid">
@@ -763,22 +778,11 @@
     document.getElementById('langEnBtn').classList.toggle('active', lang === 'en');
     document.getElementById('langArBtn').classList.toggle('active', lang === 'ar');
   }
-  function showMenu(name, btn){
-    document.querySelectorAll('.menu-panel').forEach(function(panel){
-      panel.style.display = panel.getAttribute('data-panel') === name ? 'block' : 'none';
-    });
-    document.querySelectorAll('.tab-btn').forEach(function(tab){
-      tab.classList.toggle('active', tab === btn);
-    });
-  }
-  window.showMenu = showMenu;
   document.addEventListener('DOMContentLoaded', function(){
-    document.getElementById('langEnBtn').onclick = function(){setLang('en');};
-    document.getElementById('langArBtn').onclick = function(){setLang('ar');};
-    document.querySelectorAll('.tab-btn').forEach(function(btn){
-      btn.onclick = function(e){ e.preventDefault(); showMenu(btn.getAttribute('data-tab'), btn); };
-    });
-    showMenu('biryani', document.querySelector('.tab-btn[data-tab="biryani"]'));
+    var enBtn = document.getElementById('langEnBtn');
+    var arBtn = document.getElementById('langArBtn');
+    if(enBtn) enBtn.onclick = function(){setLang('en');};
+    if(arBtn) arBtn.onclick = function(){setLang('ar');};
   });
 })();
 </script>
